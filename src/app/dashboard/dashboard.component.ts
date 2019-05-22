@@ -1,8 +1,10 @@
 import Globalize from 'globalize'
 declare var require: (e) => any;
 
-import { Component, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, OnDestroy, Inject } from '@angular/core';
 import { DashboardControl, ResourceManager, DashboardPanelExtension } from 'devexpress-dashboard';
+import { DOCUMENT } from '@angular/platform-browser';
+import themes from 'devextreme/ui/themes';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,14 +14,15 @@ import { DashboardControl, ResourceManager, DashboardPanelExtension } from 'deve
 
 export class DashboardComponent implements AfterViewInit, OnDestroy {
   private dashboardControl: DashboardControl;
-  constructor(private element: ElementRef) {
+
+  constructor(private element: ElementRef, @Inject(DOCUMENT) private document) {
     this.initGlobalize();
     ResourceManager.embedBundledResources();
   }
+
   initGlobalize() {
     Globalize.load(
       require('devextreme-cldr-data/en.json'),
-      //require('devextreme-cldr-data/de.json'),
       require('devextreme-cldr-data/supplemental.json')
     );
     Globalize.locale('en');
@@ -30,11 +33,25 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       endpoint: 'https://demos.devexpress.com/services/dashboard/api',
       workingMode: 'Designer',
     });
+    this.switchThemes();
+    let db = this.dashboardControl;
+    themes.ready(function () {
+      db.render();
+    });
+  }
 
-    this.dashboardControl.render();
+  switchThemes(): void {
+    const theme = window.localStorage.getItem('dx-theme') || 'light';
+    if (theme === 'light') {
+      return;
+    }
+    this.document.getElementById('themeAnalytics').setAttribute('href', 'assets/css/analytics/dx-analytics.' + theme + '.css');
+    this.document.getElementById('themeDashboard').setAttribute('href', 'assets/css/dashboard/dx-dashboard.' + theme + '.css');
+    themes.current('generic.' + theme);
   }
 
   ngOnDestroy(): void {
     this.dashboardControl && this.dashboardControl.dispose();
   }
+
 }

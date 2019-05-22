@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import themes from "devextreme/ui/themes";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'DashboardColor';
+  title = 'dashboard-test';
+
+  switchTheme() {
+    let theme;
+    switch (themes.current()) {
+      case "generic.light":
+        theme = "dark";
+        break;
+      case "generic.dark":
+        theme = "light";
+        break;
+      default:
+        theme = "light";
+        break;
+    }
+    window.localStorage.setItem("dx-theme", theme);
+    window.location.reload();
+  }
 }
