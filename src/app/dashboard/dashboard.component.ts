@@ -3,8 +3,8 @@ declare var require: (e) => any;
 
 import { Component, AfterViewInit, ElementRef, OnDestroy, Inject } from '@angular/core';
 import { DashboardControl, ResourceManager, DashboardPanelExtension } from 'devexpress-dashboard';
-import { DOCUMENT } from '@angular/platform-browser';
-import themes from 'devextreme/ui/themes';
+import { DOCUMENT } from "@angular/platform-browser";
+import themes from "devextreme/ui/themes";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,10 +28,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     Globalize.locale('en');
   }
   ngAfterViewInit(): void {
-    this.dashboardControl = new DashboardControl(this.element.nativeElement.querySelector('.dashboard-container'), {
+    this.dashboardControl = new DashboardControl(this.element.nativeElement.querySelector(".dashboard-container"), {
       // Specifies a URL of the Web Dashboard's server.
-      endpoint: 'https://demos.devexpress.com/services/dashboard/api',
-      workingMode: 'Designer',
+      endpoint: "https://demos.devexpress.com/services/dashboard/api",
+      workingMode: "Designer",
     });
     this.switchThemes();
     let db = this.dashboardControl;
@@ -41,13 +41,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   switchThemes(): void {
-    const theme = window.localStorage.getItem('dx-theme') || 'light';
-    if (theme === 'light') {
+    let theme = window.localStorage.getItem("dx-theme") || "light";
+    if (theme === "light")
       return;
-    }
     this.document.getElementById('themeAnalytics').setAttribute('href', 'assets/css/analytics/dx-analytics.' + theme + '.css');
     this.document.getElementById('themeDashboard').setAttribute('href', 'assets/css/dashboard/dx-dashboard.' + theme + '.css');
-    themes.current('generic.' + theme);
+    themes.current("generic." + theme);
   }
 
   ngOnDestroy(): void {
