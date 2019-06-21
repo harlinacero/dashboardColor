@@ -32,6 +32,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       // Specifies a URL of the Web Dashboard's server.
       endpoint: "https://demos.devexpress.com/services/dashboard/api",
       workingMode: "Designer",
+      extensions: {
+        'data-source-wizard': {
+          enableCustomSql: true
+        },
+      }
     });
     this.switchThemes();
     let db = this.dashboardControl;
