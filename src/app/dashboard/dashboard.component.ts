@@ -21,11 +21,16 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   initGlobalize() {
-    Globalize.load(
-      require('devextreme-cldr-data/en.json'),
-      require('devextreme-cldr-data/supplemental.json')
-    );
-    Globalize.locale('en');
+    // Globalize.load(
+    //   require('devextreme-cldr-data/en.json'),
+    //   require('devextreme-cldr-data/supplemental.json')
+    // );
+    // Globalize.locale('en');
+
+    var json = { main: {} };
+    json["main"]["es"] = { 'numbers': { 'currencyFormats-numberSystem-latn': { 'standard': '¤#,##0.00' } } };
+    Globalize.load(json);
+    Globalize.locale('es');
   }
   ngAfterViewInit(): void {
     this.dashboardControl = new DashboardControl(this.element.nativeElement.querySelector(".dashboard-container"), {
