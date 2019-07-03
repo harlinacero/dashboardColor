@@ -32,6 +32,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     Globalize.load(json);
     Globalize.locale('es');
   }
+
+
   ngAfterViewInit(): void {
     this.dashboardControl = new DashboardControl(this.element.nativeElement.querySelector(".dashboard-container"), {
       // Specifies a URL of the Web Dashboard's server.
