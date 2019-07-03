@@ -5,7 +5,7 @@ import { Component, AfterViewInit, ElementRef, OnDestroy, Inject } from '@angula
 import { DashboardControl, ResourceManager, DashboardPanelExtension } from 'devexpress-dashboard';
 import { DOCUMENT } from "@angular/platform-browser";
 import themes from "devextreme/ui/themes";
-
+import { SimpleCardItemExtension } from '../extensions/customCard';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -43,6 +43,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     themes.ready(function () {
       db.render();
     });
+
+    this.dashboardControl.registerExtension(new SimpleCardItemExtension(this.dashboardControl));
   }
 
   switchThemes(): void {

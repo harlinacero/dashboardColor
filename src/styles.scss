@@ -1,5 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css?family=Anton|Roboto+Condensed:300,400,700");
 @import url("../node_modules/jquery-ui/themes/base/all.css");
 @import url("../node_modules/devextreme/dist/css/dx.common.css");
 @import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.common.css");
 @import url("../node_modules/@devexpress/analytics-core/dist/css/dx-querybuilder.css");
+
+// @import url("../node_modules/devextreme/dist/css/dx.light.css");
+// @import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.light.css");
+// @import url("../node_modules/devexpress-dashboard/dist/css/dx-dashboard.light.css");
+
+html,
+body {
+  height: 100%;
+  width: 100vw;
+  font-family: "Roboto Condensed", Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: sans-serif;
+}
+
+// Styles Toast
+.toast-success {
+  background-color: rgb(60, 181, 76);
+}
+
+.toast-error {
+  background-color: rgb(211, 50, 51);
+}
+
+.toast-warning {
+  background-color: rgb(247, 178, 23);
+}
+
+.toast-info {
+  background-color: rgb(15, 117, 189);
+}
+
+// Own Styles
+.elipsis {
+  text-overflow: ellipsis;
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
+}
