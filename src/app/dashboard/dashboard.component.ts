@@ -1,7 +1,7 @@
 import Globalize from 'globalize'
 declare var require: (e) => any;
 
-import { Component, AfterViewInit, ElementRef, OnDestroy, Inject } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, OnDestroy, Inject, OnInit } from '@angular/core';
 import { DashboardControl, ResourceManager, DashboardPanelExtension } from 'devexpress-dashboard';
 import { DOCUMENT } from "@angular/platform-browser";
 import themes from "devextreme/ui/themes";
@@ -12,11 +12,11 @@ import { SimpleCardItemExtension } from '../extensions/customCard';
   styleUrls: ['./dashboard.component.scss']
 })
 
-export class DashboardComponent implements AfterViewInit, OnDestroy {
+export class DashboardComponent implements OnInit {
   private dashboardControl: DashboardControl;
 
   constructor(private element: ElementRef, @Inject(DOCUMENT) private document) {
-    this.initGlobalize();
+    // this.initGlobalize();
     ResourceManager.embedBundledResources();
   }
 
@@ -34,34 +34,74 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+
+    const colorSchemaList = {
+      'light': 'Light',
+      'dark': 'Dark',
+      'light.compact': 'Light Compact',
+      'dark.compact': 'Dark Compact'
+    };
+
     this.dashboardControl = new DashboardControl(this.element.nativeElement.querySelector(".dashboard-container"), {
       // Specifies a URL of the Web Dashboard's server.
-      endpoint: "https://demos.devexpress.com/services/dashboard/api",
+      // endpoint: "https://demos.devexpress.com/services/dashboard/api",
+      endpoint: "https://localhost:44381/api/dashboard",
       workingMode: "Designer",
       extensions: {
         'data-source-wizard': {
           enableCustomSql: true
         },
+        'viewer-api': {
+          onDashboardTitleToolbarUpdated: (e) => {
+            e.options.actionItems.push(
+              {
+                type: 'menu',
+                icon: 'colorSchemeIcon',
+                hint: 'Color Schema',
+                menu: {
+                  items: Object.keys(colorSchemaList).map(function (key) { return colorSchemaList[key]; }),
+                  type: 'list',
+                  selectionMode: 'single',
+                  selectedItems: this.getColorSchema(),
+                  itemClick: (data, element, index) => {
+                    const newTheme = Object.keys(colorSchemaList)[index];
+                    this.switchThemes(newTheme);
+                  }
+                }
+              })
+          },
+        }
       }
     });
-    this.switchThemes();
     let db = this.dashboardControl;
     themes.ready(function () {
       db.render();
     });
-
+    this.dashboardControl.registerExtension(new DashboardPanelExtension(this.dashboardControl));
     this.dashboardControl.registerExtension(new SimpleCardItemExtension(this.dashboardControl));
   }
 
-  switchThemes(): void {
-    let theme = window.localStorage.getItem("dx-theme") || "light";
-    if (theme === "light")
-      return;
-    this.document.getElementById('themeAnalytics').setAttribute('href', 'assets/css/analytics/dx-analytics.' + theme + '.css');
-    this.document.getElementById('themeDashboard').setAttribute('href', 'assets/css/dashboard/dx-dashboard.' + theme + '.css');
-    themes.current("generic." + theme);
+  switchThemes(newTheme): void {
+    // this.document.getElementById('themeFonts').setAttribute('href', 'assets/css/dxt/dx.' + newTheme + '.css');
+    this.document.getElementById('themeAnalytics').setAttribute('href', 'assets/css/analytics/dx-analytics.' + newTheme + '.css');
+    this.document.getElementById('themeDashboard').setAttribute('href', 'assets/css/dashboard/dx-dashboard.' + newTheme + '.css');
+    themes.current("generic." + newTheme);
   }
+
+  /**
+ *  Get Color scheme from localstorage
+ */
+  getColorSchema() {
+    const query = window.location.search.substring(1);
+    const vars = query.split('&');
+    for (let i = 0; i < vars.length; i++) {
+      const pair = vars[i].split('=');
+      if (pair[0] === 'colorSchema') { return pair[1]; }
+    }
+    return 'light.compact';
+  }
+
 
   ngOnDestroy(): void {
     this.dashboardControl && this.dashboardControl.dispose();

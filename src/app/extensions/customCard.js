@@ -122,7 +122,6 @@
     },
     29: function(module, exports, __webpack_require__) {
       var editorTemplates = __webpack_require__(2).editorTemplates;
-      console.log(editorTemplates);
       var CustomItemViewer = __webpack_require__(0).CustomItemViewer;
       var $ = __webpack_require__(1);
       var customItemSimpleCardMeta = {
@@ -131,22 +130,26 @@
           {
             propertyName: "customMeasure",
             dataItemType: "Measure",
-            displayName: "Medidas"
+            displayName: "DashboardWebStringId.Parameters.Values"
           },
           {
             propertyName: "customDimensions",
             dataItemType: "Dimension",
-            array: true,
-            displayName: "Dimensiones"
+            displayName: "DashboardStringId.DescriptionArguments",
+            enableInteractivity: true
           }
         ],
+        interactivity: {
+          filter: true,
+          drillDown: true
+        },
         // Settings of values, measures and dimensions
         properties: [
           {
             propertyName: "showHeaders",
             editor: editorTemplates.buttonGroup,
             displayName: "Show Headers",
-            sectionName: "Custom Options",
+            sectionName: "Texto",
             values: {
               Auto: "Auto",
               Off: "Off",
@@ -158,7 +161,7 @@
             propertyName: "diectionText",
             editor: editorTemplates.buttonGroup,
             displayName: "Dirección Texto",
-            sectionName: "Custom Options",
+            sectionName: "Texto",
             values: {
               Left: "Left",
               Center: "Center",
@@ -170,13 +173,70 @@
             propertyName: "addImage",
             editor: editorTemplates.image,
             displayName: "Imagen",
-            sectionName: "Custom Options",
-            defaultVal: "url"
+            sectionName: "Imagen",
+            defaultVal: ""
+          },
+          {
+            propertyName: "setPositionImage",
+            editor: editorTemplates.buttonGroup,
+            displayName: "Ubicación Imagen",
+            sectionName: "Imagen",
+            values: {
+              row: "Izquierda",
+              "row-reverse": "Derecha"
+            },
+            defaultVal: "left"
+          },
+          {
+            propertyName: "addColor",
+            editor: editorTemplates.text,
+            displayName: "Background Color",
+            sectionName: "Esquema de Colores",
+            defaultVal: "#fffff"
+          },
+          {
+            propertyName: "sizeTitle",
+            editor: editorTemplates.buttonGroup,
+            displayName: "Tamaño Título",
+            sectionName: "Texto",
+            values: {
+              large: "Pequeño",
+              "x-large": "Normal",
+              "xx-large": "Grande"
+            },
+            defaultVal: "large"
+          },
+          {
+            propertyName: "changeColorTitle",
+            editor: editorTemplates.text,
+            displayName: "Color Título",
+            sectionName: "Esquema de Colores",
+            defaultVal: "#848484"
+          },
+          {
+            propertyName: "sizeBodyText",
+            editor: editorTemplates.buttonGroup,
+            displayName: "Tamaño texto",
+            sectionName: "Texto",
+            values: {
+              large: "Pequeño",
+              "x-large": "Normal",
+              "xx-large": "Grande"
+            },
+            defaultVal: "xx-large"
+          },
+          {
+            propertyName: "changeColorText",
+            editor: editorTemplates.text,
+            displayName: "Color Texto",
+            sectionName: "Esquema de Colores",
+            defaultVal: "#848484"
           }
         ],
         icon: "CustomItemSimpleCard",
         title: "Simple Card"
       };
+
       var __extends =
         (this && this.__extends) ||
         (function() {
@@ -210,6 +270,7 @@
         function customItemSimpleCard(model, container, options) {
           _super.call(this, model, container, options);
           var _this = this;
+          this.$element = undefined;
           this.$div = undefined;
           this.$divImg = undefined;
           // Custom header Event
@@ -217,16 +278,54 @@
             _this._update(mode);
           });
 
-          // Custom
+          // Customs settings
+          // Align text settings
           this.subscribe("diectionText", function(mode) {
-            var customTexts = document.getElementsByClassName("customText");
-            for (let text of customTexts) {
-              text.style.textAlign = mode;
+            _this._alignText(mode);
+          });
+
+          // Img settings
+          this.subscribe("addImage", function(mode) {
+            _this._addImage(mode);
+          });
+
+          //setPositionImage
+          this.subscribe("setPositionImage", function(mode) {
+            _this._setPositionImage(mode);
+          });
+          // Background color settings
+          this.subscribe("addColor", function(mode) {
+            if (!!mode) {
+              _this._addColor(mode);
             }
           });
-          this.subscribe("addImage", function(mode) {
-            document.getElementById("ItemPreview").src =
-              "data:image/png;base64," + mode;
+
+          // Text color settings
+          this.subscribe("changeColorTitle", function(color) {
+            if (!!color) {
+              _this._changeColorTitle(color);
+            }
+          });
+
+          // changeColorText
+          this.subscribe("changeColorText", function(color) {
+            if (!!color) {
+              _this._changeColorText(color);
+            }
+          });
+
+          // Text body settings
+          this.subscribe("sizeTitle", function(number) {
+            if (!!number) {
+              _this._sizeTitle(number);
+            }
+          });
+
+          // Text body settings
+          this.subscribe("sizeBodyText", function(number) {
+            if (!!number) {
+              _this._sizeBodyText(number);
+            }
           });
         }
         customItemSimpleCard.prototype.renderContent = function(
@@ -234,35 +333,46 @@
           changeExisting,
           afterRenderCallback
         ) {
-          let $element = $(element);
+          this.$element = $(element);
           if (!changeExisting) {
-            $element.empty();
-            $element.css("display", "flex");
-            // $element.css("flex-column", "column");
-            $element.css("overflow", "hidden");
-            $element.css("padding", "0.5em");
+            this.$element.empty();
+            // $element.setAttribute("id", "customCard");
+            this.$element.css("display", "flex");
+            // this.$element.css("overflow", "auto");
+            this.$element.css("padding", "0.5em");
+            this.$element[0].id = "customCard";
 
             this.$div = $("<div/>", {
               cellpadding: 0,
               cellspacing: 0,
               border: 1,
-              width: "100%"
+              width: "70%",
+              height: "100%",
+              padding: "0.5em"
             });
 
             this.$divImg = $("<div/>", {
               cellpadding: 0,
               cellspacing: 0,
               border: 1,
-              width: "100%"
+              width: "30%"
             });
 
-            $element.append(this.$divImg);
-            $element.append(this.$div);
+            this.$element.append(this.$divImg);
+            this.$element.append(this.$div);
           }
           this._update(this.getPropertyValue("showHeaders"));
-          this._update(this.getPropertyValue("diectionText"));
-          this._update(this.getPropertyValue("addImage"));
+          this._alignText(this.getPropertyValue("diectionText"));
+          // this._displayForm(this.getPropertyValue("displayForm"));
+          this._addImage(this.getPropertyValue("addImage"));
+          this._setPositionImage(this.getPropertyValue("setPositionImage"));
+          this._addColor(this.getPropertyValue("addColor"));
+          this._changeColorTitle(this.getPropertyValue("changeColorTitle"));
+          this._changeColorText(this.getPropertyValue("changeColorText"));
+          this._sizeBodyText(this.getPropertyValue("sizeBodyText"));
+          this._sizeTitle(this.getPropertyValue("sizeTitle"));
         };
+
         customItemSimpleCard.prototype._update = function(mode) {
           var _this = this;
           this.$div.empty();
@@ -283,32 +393,121 @@
               .concat(rowDataObject.getDisplayText("customMeasure"));
             _this._addTableRow(valueTexts, false);
           });
-          this._addImage(bindingValues.map(function(item) {}), true);
         };
-        /**
-         * Properties of desing card
-         */
+
+        customItemSimpleCard.prototype._alignText = function(align) {
+          this.$div.css("textAlign", align);
+          this.$div.css("display", "grid");
+          this.$div.css("align-content", "center");
+          this.$div.css("align-items", "center");
+        };
+
         // About text properties
         customItemSimpleCard.prototype._addTableRow = function(
           texts,
           isHeader
         ) {
           var tag = isHeader ? "h6" : "h3";
+          var idName = isHeader ? "title" : "dimension";
           var cells = texts.map(function(text) {
-            return "<" + tag + ' class="customText">' + text + "</" + tag + ">";
+            return (
+              "<" +
+              tag +
+              ' id="' +
+              idName +
+              '" class="customText">' +
+              text +
+              "</" +
+              tag +
+              ">"
+            );
           });
           this.$div.append($("<div/>").html(cells.join("")));
         };
 
         // About Image properties
-        customItemSimpleCard.prototype._addImage = function() {
-          this.$divImg.append(
-            $(
-              '<div id="imageContent" style="width: 100%; height: 100%; resize: vertical;">' +
-                '<img id="ItemPreview" src="" style="height: 100%; width: 100%;"/></div>'
-            )
-          );
+        customItemSimpleCard.prototype._addImage = function(imgbase) {
+          if (imgbase === "") {
+            this.$divImg.css("display", "none");
+          } else {
+            var divImage =
+              '<div id="imageContent" style="height: 100%; width:100%; flex-flow: column; align-items: center; padding: 0.5em;">' +
+              '<img src="data:image/png;base64,' +
+              imgbase +
+              '" style="height: 100%;"/></div>';
+            this.$divImg.html(divImage);
+            this.$divImg.css("display", "block");
+          }
         };
+
+        // About Image properties
+        customItemSimpleCard.prototype._setPositionImage = function(position) {
+          if (position === "") {
+            this.$element.css("display", "none");
+          } else {
+            this.$element.css("flex-direction", position);
+          }
+        };
+
+        // Set background color
+        customItemSimpleCard.prototype._addColor = function(mode) {
+          if (!!mode) {
+            this.container.style.background = mode;
+          }
+        };
+
+        // Set text Color
+        customItemSimpleCard.prototype._changeColorTitle = function(mode) {
+          if (!!mode) {
+            if (!!this.container.getElementsByTagName("h6")[0]) {
+              for (
+                let i = 0;
+                i < this.container.getElementsByTagName("h6").length;
+                i++
+              ) {
+                this.container.getElementsByTagName("h6")[i].style.color = mode;
+              }
+            }
+          }
+        };
+
+        // _changeColorText
+        customItemSimpleCard.prototype._changeColorText = function(mode) {
+          if (!!mode) {
+            if (!!this.container.getElementsByTagName("h3")[0]) {
+              for (
+                let i = 0;
+                i < this.container.getElementsByTagName("h3").length;
+                i++
+              ) {
+                this.container.getElementsByTagName("h3")[i].style.color = mode;
+              }
+            }
+          }
+        };
+
+        // Set size body text
+        customItemSimpleCard.prototype._sizeTitle = function(numeric) {
+          if (!!numeric) {
+            if (!!this.container.getElementsByTagName("h6")[0]) {
+              this.container.getElementsByTagName(
+                "h6"
+              )[0].style.fontSize = numeric;
+            }
+          }
+        };
+
+        // Set size body text
+        customItemSimpleCard.prototype._sizeBodyText = function(numeric) {
+          if (!!numeric) {
+            if (!!this.container.getElementsByTagName("h3")[0]) {
+              this.container.getElementsByTagName(
+                "h3"
+              )[0].style.fontSize = numeric;
+            }
+          }
+        };
+
         return customItemSimpleCard;
       })(CustomItemViewer);
 
