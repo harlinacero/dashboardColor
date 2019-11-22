@@ -45,8 +45,8 @@ export class DashboardComponent implements OnInit {
 
     this.dashboardControl = new DashboardControl(this.element.nativeElement.querySelector(".dashboard-container"), {
       // Specifies a URL of the Web Dashboard's server.
-      // endpoint: "https://demos.devexpress.com/services/dashboard/api",
-      endpoint: "https://localhost:44381/api/dashboard",
+      endpoint: "https://demos.devexpress.com/services/dashboard/api",
+      // endpoint: "https://localhost:44381/api/dashboard",
       workingMode: "Designer",
       extensions: {
         'data-source-wizard': {
