@@ -1,11 +1,10 @@
-import Globalize from 'globalize'
-declare var require: (e) => any;
-
 import { Component, AfterViewInit, ElementRef, OnDestroy, Inject, OnInit } from '@angular/core';
 import { DashboardControl, ResourceManager, DashboardPanelExtension } from 'devexpress-dashboard';
 import { DOCUMENT } from "@angular/platform-browser";
 import themes from "devextreme/ui/themes";
 import { SimpleCardItemExtension } from '../extensions/customCard';
+import { locale } from 'devextreme/localization';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -16,22 +15,10 @@ export class DashboardComponent implements OnInit {
   private dashboardControl: DashboardControl;
 
   constructor(private element: ElementRef, @Inject(DOCUMENT) private document) {
-    // this.initGlobalize();
+    locale('es-co');
     ResourceManager.embedBundledResources();
   }
 
-  initGlobalize() {
-    // Globalize.load(
-    //   require('devextreme-cldr-data/en.json'),
-    //   require('devextreme-cldr-data/supplemental.json')
-    // );
-    // Globalize.locale('en');
-
-    var json = { main: {} };
-    json["main"]["es"] = { 'numbers': { 'currencyFormats-numberSystem-latn': { 'standard': '¤#,##0.00' } } };
-    Globalize.load(json);
-    Globalize.locale('es');
-  }
 
 
   ngOnInit(): void {
@@ -47,7 +34,7 @@ export class DashboardComponent implements OnInit {
       // Specifies a URL of the Web Dashboard's server.
       endpoint: "https://demos.devexpress.com/services/dashboard/api",
       // endpoint: "https://localhost:44381/api/dashboard",
-      workingMode: "Designer",
+      workingMode: "Viewer",
       extensions: {
         'data-source-wizard': {
           enableCustomSql: true

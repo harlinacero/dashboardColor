@@ -1,7 +1,7 @@
 /**
 * DevExpress HTML/JS Analytics Core (dx-analytics.common.css)
-* Version: 19.2.4
-* Build date: 2019-11-19
+* Version: 19.2.5
+* Build date: 2019-12-16
 * Copyright (c) 2012 - 2019 Developer Express Inc. ALL RIGHTS RESERVED
 * License: https://www.devexpress.com/Support/EULAs/NetComponents.xml
 */
@@ -317,10 +317,10 @@
   opacity: 1;
 }
 .dx-image-filtereditor-edit {
-  opacity: .5;
+  opacity: .7;
 }
 .dx-image-filtereditor-edit:hover {
-  opacity: .7;
+  opacity: 1;
 }
 .dx-image-filtereditor-remove {
   opacity: 0.5;
@@ -735,7 +735,7 @@
   background-position: center;
   visibility: hidden;
   visibility: visible;
-  height: 25px;
+  padding: 3px 4px 5px;
 }
 .dx-expressioneditor .dx-rtl .dx-expression-tree .dx-expressioneditor-textarea .dx-texteditor-input {
   padding-left: 22px;
@@ -1927,6 +1927,7 @@
 }
 .dxrd-designer-wrapper .dxrd-drag-helper-control {
   z-index: 1;
+  pointer-events: none;
 }
 .dxrd-designer-wrapper .dxrd-locked > .dxrd-drag-helper-control {
   border: 1px solid orangered;

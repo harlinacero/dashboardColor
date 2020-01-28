@@ -1,7 +1,7 @@
 ﻿/**
 * DevExpress Dashboard (dx-dashboard.light.compact.css)
-* Version:  19.2.4
-* Build date: Nov 22, 2019
+* Version:  19.2.5
+* Build date: Dec 17, 2019
 * Copyright (c) 2012 - 2019 Developer Express Inc. ALL RIGHTS RESERVED
 * License: https://www.devexpress.com/Support/EULAs/universal.xml
 */
@@ -6112,6 +6112,26 @@ dx-field-chooser > div, dx-datasource-chooser > div {
     height: 2px;
     border-bottom: 1px solid #e5e5e5; }
 
+.dx-dashboard-property-grid .dx-button:not(.dx-buttongroup-item) {
+  width: 100%;
+  height: 30px; }
+
+.dx-dashboard-property-grid .dx-button {
+  margin: 0;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 11px; }
+  .dx-dashboard-property-grid .dx-button.dx-button-has-text .dx-button-content {
+    padding-top: 6px;
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 8px; }
+    .dx-dashboard-property-grid .dx-button.dx-button-has-text .dx-button-content .dx-button-text {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+
 .dx-dashboard-property-grid .dx-buttongroup {
   width: 100%;
   height: 30px; }
@@ -6141,25 +6161,15 @@ dx-field-chooser > div, dx-datasource-chooser > div {
     .dx-dashboard-property-grid .dx-buttongroup.dx-dashboard-button-with-icon .dx-item-selected svg use {
       color: #333;
       fill: #337ab7; }
-  .dx-dashboard-property-grid .dx-buttongroup .dx-buttongroup-item {
-    margin: 0;
-    text-align: center;
-    padding-left: 5px;
-    padding-right: 5px;
-    font-size: 11px; }
-    .dx-dashboard-property-grid .dx-buttongroup .dx-buttongroup-item .dx-button-content {
-      padding-right: 0;
-      padding-left: 0; }
-      .dx-dashboard-property-grid .dx-buttongroup .dx-buttongroup-item .dx-button-content .dx-button-text {
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis; }
-    .dx-dashboard-property-grid .dx-buttongroup .dx-buttongroup-item.dx-buttongroup-item-has-width {
-      flex: 1 1 0;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      min-width: 0; }
+  .dx-dashboard-property-grid .dx-buttongroup .dx-buttongroup-item.dx-buttongroup-item-has-width {
+    flex: 1 1 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0; }
+
+.dx-dashboard-text-box-item-editor-popup .dx-popup-content {
+  padding-bottom: 0; }
 
 .dx-dashboard-widget-container .dxrd-multiqueries-sqldatasource-wizard.dxrd-wizard .dxrd-wizard-content .dxrd-wizard-page .dxrd-wizard-availabledatasources {
   bottom: 0px;
