@@ -1,9 +1,11 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url("https://fonts.googleapis.com/css?family=Anton|Roboto+Condensed:300,400,700");
-@import url("../node_modules/jquery-ui/themes/base/all.css");
-@import url("../node_modules/devextreme/dist/css/dx.common.css");
-@import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.common.css");
-@import url("../node_modules/@devexpress/analytics-core/dist/css/dx-querybuilder.css");
+@import url("../node_modules/devexpress-gantt/dist/dx-gantt.min.css");
+@import url("../node_modules/devexpress-richedit/dist/dx.richedit.css");
+// @import url("../node_modules/jquery-ui/themes/base/all.css");
+// @import url("../node_modules/devextreme/dist/css/dx.common.css");
+// @import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.common.css");
+// @import url("../node_modules/@devexpress/analytics-core/dist/css/dx-querybuilder.css");
 
 // @import url("../node_modules/devextreme/dist/css/dx.light.css");
 // @import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.light.css");
@@ -12,8 +14,8 @@
 html,
 body {
   height: 100%;
-  // width: 100vw;
-  font-family: "Roboto Condensed", Arial, Helvetica, sans-serif;
+  width: 100vw;
+  font-family: "Roboto", "RobotoFallback", Helvetica, Arial, sans-serif;
   overflow: hidden;
 }
 
@@ -50,3 +52,4 @@ h6 {
   white-space: nowrap;
   overflow: hidden;
 }
+
