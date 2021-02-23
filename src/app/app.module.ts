@@ -12,8 +12,8 @@ import { HttpClient } from '@angular/common/http';
   declarations: [
     AppComponent,
     DashboardComponent,
-    // EmulatorComponent,
-    // DashboardMobileComponent
+    EmulatorComponent,
+    DashboardMobileComponent
   ],
   imports: [
     BrowserModule,
